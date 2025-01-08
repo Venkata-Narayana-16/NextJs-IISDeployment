@@ -15,18 +15,14 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
-# Step 1: Copy all files except node_modules into the 'Artifact' folder
-- task: CopyFiles@2
+- task: CmdLine@2
   inputs:
-    SourceFolder: $(Build.SourcesDirectory)  # Working directory (your repo folder)
-    Contents: |
-      **/*  # Copy all files
-      !**/node_modules/**  # Exclude node_modules folder
-    TargetFolder: $(Build.ArtifactStagingDirectory)/Artifact  # Target folder where the files are copied
+    script: |
+      mkdir -p $(Build.ArtifactStagingDirectory)/artifact
+      rsync -av --exclude 'node_modules' . $(Build.ArtifactStagingDirectory)/artifact/
 
-# Step 2: Publish the 'Artifact' folder as a pipeline artifact
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/Artifact'  # Path to the Artifact folder
+    targetPath: '$(Build.ArtifactStagingDirectory)/artifact'
     publishLocation: 'pipeline'
-    artifactName: 'drop'  # Name of the artifact
+    artifactName: 'drop'
