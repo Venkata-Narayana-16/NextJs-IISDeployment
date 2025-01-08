@@ -1,0 +1,5 @@
+# .artifactignore
+node_modules/
+azure-pipeline.yml
+*.log
+*.md
