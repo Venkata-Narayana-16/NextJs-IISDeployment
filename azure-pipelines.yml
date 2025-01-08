@@ -23,3 +23,7 @@ steps:
   inputs:
     targetPath: '$(Pipeline.Workspace)'
     publishLocation: 'pipeline'
+    artifactName: 'drop'
+    # Exclude node_modules folder from the published artifact
+    artifactSubPath: '**/*' 
+    exclude: '**/node_modules/**'
