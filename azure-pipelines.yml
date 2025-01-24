@@ -1,5 +1,9 @@
 trigger:
-- main
+  branches:
+    include:
+    - main
+    exclude:
+    - '*'
 
 pool:
   vmImage: ubuntu-latest
@@ -11,15 +15,19 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install --only=production 
+    npm ci 
     npm run build
-  displayName: 'npm install and build'
+  displayName: 'npm install'
+
+- script: |
+    npm run build
+  displayName: 'npm build'
 
 - task: CmdLine@2
   inputs:
     script: |
       mkdir -p $(Build.ArtifactStagingDirectory)/artifact
-      rsync -av --exclude 'node_modules' . $(Build.ArtifactStagingDirectory)/artifact/
+      rsync -av --exclude='{node_modules,azure-pipelines.yml,README.md,.gitignore,exclude,.artifactignore}' . $(Build.ArtifactStagingDirectory)/artifact/
 
 - task: PublishPipelineArtifact@1
   inputs:
