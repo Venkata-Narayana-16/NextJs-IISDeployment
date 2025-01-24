@@ -33,7 +33,7 @@ steps:
         --exclude='README.md' \
         --exclude='.gitignore' \
         --exclude='.artifactignore' \
-        --exclude-'.github'
+        --exclude='.github'
         . $(Build.ArtifactStagingDirectory)/artifact/
 - task: PublishPipelineArtifact@1
   inputs:
