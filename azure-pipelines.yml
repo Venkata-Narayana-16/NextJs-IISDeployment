@@ -27,8 +27,13 @@ steps:
   inputs:
     script: |
       mkdir -p $(Build.ArtifactStagingDirectory)/artifact
-      rsync -av --exclude='{node_modules,azure-pipelines.yml,README.md,.gitignore,exclude,.artifactignore}' . $(Build.ArtifactStagingDirectory)/artifact/
-
+      rsync -av \
+        --exclude='node_modules' \
+        --exclude='azure-pipelines.yml' \
+        --exclude='README.md' \
+        --exclude='.gitignore' \
+        --exclude='.artifactignore' \
+        . $(Build.ArtifactStagingDirectory)/artifact/
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)/artifact'
